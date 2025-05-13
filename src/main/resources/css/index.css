@@ -1,0 +1,53 @@
+.overview {
+display: flex;
+justify-content: space-between;
+padding: 20px;
+max-width: 1000px;
+margin: auto;
+}
+.overview .text {
+flex: 1;
+margin-right: 20px;
+}
+.overview img {
+max-width: 250px;
+border-radius: 5px;
+}
+.map-section {
+text-align: center;
+padding: 30px 10px;
+}
+.map-section img {
+width: 80%;
+max-width: 400px;
+}
+.outcomes {
+padding: 20px;
+text-align: center;
+}
+.outcome-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: 10px;
+max-width: 1000px;
+margin: auto;
+}
+select {
+width: 100%;
+padding: 10px;
+border: 1px solid #ccc;
+border-radius: 4px;
+}
+@media (max-width: 600px) {
+.overview {
+flex-direction: column;
+align-items: center;
+}
+.overview .text {
+margin-right: 0;
+}
+.overview img {
+margin-top: 20px;
+}
+}
+    
