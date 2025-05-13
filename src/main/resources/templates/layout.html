@@ -1,11 +1,83 @@
 <!-- Base template (header/footer) -->
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Layout</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:replace="${title} ?: 'Australian Gap Analysis'">Default Title</title>
+    
+    <!-- Common CSS -->
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    
+    <!-- Additional CSS for specific pages -->
+    <th:block th:replace="${additionalCss} ?: _"></th:block>
 </head>
 <body>
-    <!-- TODO: Add header and footer -->
-    <div th:replace="~{::body}"></div>
+    <!-- Header Section -->
+    <header>
+        <div class="top-bar">
+            <img th:src="@{/img/logo.png}" alt="Logo" class="logo">
+            <div class="auth-buttons">
+                <button>Sign In</button>
+                <button>Register</button>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a th:href="@{/age-health}">Age & Health</a></li>
+                <li><a th:href="@{/education}">Education</a></li>
+                <li><a th:href="@{/gap-analysis}">Gap Analysis</a></li>
+                <li><a th:href="@{/how-to-use}">How to use</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content Section -->
+    <main>
+        <!-- Page specific content will be inserted here -->
+        <div th:replace="${content} ?: _">
+            <!-- Default content if none provided -->
+            <p>No content provided</p>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About</h4>
+                <a th:href="@{/our-vision}">Our vision</a>
+                <a th:href="@{/how-to-use}">How to use</a>
+                <a th:href="@{/contact}">Contact us</a>
+                <a th:href="@{/personas}">Our Personas</a>
+            </div>
+            <div class="footer-section">
+                <h4>Detailed View</h4>
+                <a th:href="@{/age-health}">Age & Health</a>
+                <a th:href="@{/education}">Education</a>
+                <a th:href="@{/gap-analysis}">Gap Analysis</a>
+            </div>
+            <div class="footer-section">
+                <h4>Team HN-G01-JavaStudio-2025A</h4>
+                <p>
+                    Uong Minh Duc<br>
+                    Tran Chi Thien<br>
+                    Luong Thuy Vy<br>
+                    Pham Duy Bao<br>
+                    Nguyen Hoang Tung
+                </p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Australian Gap Analysis. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Common JavaScript -->
+    <script th:src="@{/js/common.js}"></script>
+    
+    <!-- Additional JavaScript for specific pages -->
+    <th:block th:replace="${additionalJs} ?: _"></th:block>
 </body>
 </html> 
