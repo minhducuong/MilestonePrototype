@@ -86,7 +86,7 @@ public class App {
 
     /**
      * Starts the application server
-     * @param port The port number to run the server on
+     * @param port   The port number to run the server on // 7000
      */
     public void start(int port) {
         app.start(port);
