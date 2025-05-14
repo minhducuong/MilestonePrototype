@@ -17,7 +17,7 @@ import org.thymeleaf.context.IContext;
 
 import io.javalin.http.Handler;
 
-public class PageST2B {
+public class Education {
     // Template engine instance for rendering Thymeleaf templates
     private final TemplateEngine templateEngine;
 
@@ -25,7 +25,7 @@ public class PageST2B {
      * Constructor for PageST2B
      * @param templateEngine The Thymeleaf template engine instance
      */
-    public PageST2B(TemplateEngine templateEngine) {
+    public Education(TemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
     }
 

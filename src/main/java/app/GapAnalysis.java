@@ -17,7 +17,7 @@ import org.thymeleaf.context.IContext;
 
 import io.javalin.http.Handler;
 
-public class PageST3A {
+public class GapAnalysis {
     // Template engine instance for rendering Thymeleaf templates
     private final TemplateEngine templateEngine;
 
@@ -25,7 +25,7 @@ public class PageST3A {
      * Constructor for PageST3A
      * @param templateEngine The Thymeleaf template engine instance
      */
-    public PageST3A(TemplateEngine templateEngine) {
+    public GapAnalysis(TemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
     }
 

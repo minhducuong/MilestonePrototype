@@ -1,136 +1,61 @@
 package app.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.context.IContext;
 
-import io.javalin.Javalin;
 import io.javalin.http.Handler;
 
 /**
- * Main controller for handling all page routes
- * Maps to the pages defined in templates folder
+ * Unified controller for all pages
+ * Provides template rendering and route handling
  */
 public class PageController {
-    private final Javalin app;
-    private final TemplateEngine templateEngine;
+    protected final TemplateEngine templateEngine;
+    private final Map<String, String> pageTitles;
 
-    public PageController(Javalin app, TemplateEngine templateEngine) {
-        this.app = app;
+    public PageController(TemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
-        setupRoutes();
+        this.pageTitles = new HashMap<>();
+        initializePageTitles();
+    }
+
+    private void initializePageTitles() {
+        pageTitles.put("index", "Home - Australian Gap Analysis");
+        pageTitles.put("agehealth", "Age & Health - Australian Gap Analysis");
+        pageTitles.put("education", "Education - Australian Gap Analysis");
+        pageTitles.put("gapanalyse", "Gap Analysis - Australian Gap Analysis");
+        pageTitles.put("vision", "Our Vision - Australian Gap Analysis");
+        pageTitles.put("how2use", "How to Use - Australian Gap Analysis");
+        pageTitles.put("contact", "Contact Us - Australian Gap Analysis");
+        pageTitles.put("persona", "Our Personas - Australian Gap Analysis");
     }
 
     /**
-     * Sets up all the routes for the application
+     * Renders a template with the given title
+     * @param templateName Name of the template file (without .html)
+     * @return Handler that renders the template
      */
-    private void setupRoutes() {
-        // Main pages
-        app.get("/", handleIndex());
-        app.get("/age-health", handleAgeHealth());
-        app.get("/education", handleEducation());
-        app.get("/gap-analysis", handleGapAnalysis());
-        app.get("/how-to-use", handleHowToUse());
-
-        // About section pages
-        app.get("/our-vision", handleOurVision());
-        app.get("/contact", handleContact());
-        app.get("/personas", handlePersonas());
-    }
-
-    /**
-     * Handler for the index page
-     */
-    private Handler handleIndex() {
+    protected Handler renderPage(String templateName) {
         return ctx -> {
             IContext thymeleafContext = new Context();
-            ((Context) thymeleafContext).setVariable("title", "Australian Gap Analysis");
-            String html = templateEngine.process("index", thymeleafContext);
+            ((Context) thymeleafContext).setVariable("title", 
+                pageTitles.getOrDefault(templateName, "Australian Gap Analysis"));
+            String html = templateEngine.process(templateName, thymeleafContext);
             ctx.html(html);
         };
     }
 
-    /**
-     * Handler for the Age & Health page
-     */
-    private Handler handleAgeHealth() {
-        return ctx -> {
-            IContext thymeleafContext = new Context();
-            ((Context) thymeleafContext).setVariable("title", "Age & Health - Australian Gap Analysis");
-            String html = templateEngine.process("age-health", thymeleafContext);
-            ctx.html(html);
-        };
-    }
-
-    /**
-     * Handler for the Education page
-     */
-    private Handler handleEducation() {
-        return ctx -> {
-            IContext thymeleafContext = new Context();
-            ((Context) thymeleafContext).setVariable("title", "Education - Australian Gap Analysis");
-            String html = templateEngine.process("education", thymeleafContext);
-            ctx.html(html);
-        };
-    }
-
-    /**
-     * Handler for the Gap Analysis page
-     */
-    private Handler handleGapAnalysis() {
-        return ctx -> {
-            IContext thymeleafContext = new Context();
-            ((Context) thymeleafContext).setVariable("title", "Gap Analysis - Australian Gap Analysis");
-            String html = templateEngine.process("gap-analysis", thymeleafContext);
-            ctx.html(html);
-        };
-    }
-
-    /**
-     * Handler for the How to Use page
-     */
-    private Handler handleHowToUse() {
-        return ctx -> {
-            IContext thymeleafContext = new Context();
-            ((Context) thymeleafContext).setVariable("title", "How to Use - Australian Gap Analysis");
-            String html = templateEngine.process("how-to-use", thymeleafContext);
-            ctx.html(html);
-        };
-    }
-
-    /**
-     * Handler for the Our Vision page
-     */
-    private Handler handleOurVision() {
-        return ctx -> {
-            IContext thymeleafContext = new Context();
-            ((Context) thymeleafContext).setVariable("title", "Our Vision - Australian Gap Analysis");
-            String html = templateEngine.process("our-vision", thymeleafContext);
-            ctx.html(html);
-        };
-    }
-
-    /**
-     * Handler for the Contact page
-     */
-    private Handler handleContact() {
-        return ctx -> {
-            IContext thymeleafContext = new Context();
-            ((Context) thymeleafContext).setVariable("title", "Contact Us - Australian Gap Analysis");
-            String html = templateEngine.process("contact", thymeleafContext);
-            ctx.html(html);
-        };
-    }
-
-    /**
-     * Handler for the Personas page
-     */
-    private Handler handlePersonas() {
-        return ctx -> {
-            IContext thymeleafContext = new Context();
-            ((Context) thymeleafContext).setVariable("title", "Our Personas - Australian Gap Analysis");
-            String html = templateEngine.process("personas", thymeleafContext);
-            ctx.html(html);
-        };
-    }
+    // Page handlers
+    public Handler handleIndex() { return renderPage("index"); }
+    public Handler handleAgeHealth() { return renderPage("agehealth"); }
+    public Handler handleEducation() { return renderPage("education"); }
+    public Handler handleGapAnalysis() { return renderPage("gapanalyse"); }
+    public Handler handleVision() { return renderPage("vision"); }
+    public Handler handleHow2Use() { return renderPage("how2use"); }
+    public Handler handleContact() { return renderPage("contact"); }
+    public Handler handlePersona() { return renderPage("persona"); }
 } 

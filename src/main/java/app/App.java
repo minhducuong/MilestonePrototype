@@ -13,15 +13,19 @@
 package app;
 
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 import app.config.ResourceConfig;
+import app.dataLogic.JDBCmain;
 import io.javalin.Javalin;
+import io.javalin.http.Handler;
 
 public class App {
     private final Javalin app;
     private final TemplateEngine templateEngine;
+    private final JDBCmain dbConnection;
 
     /**
      * Constructor for the main application
@@ -36,7 +40,10 @@ public class App {
         // Configure Thymeleaf template engine
         this.templateEngine = configureThymeleaf();
 
-        // Configure routes
+        // Initialize database connection
+        this.dbConnection = new JDBCmain();
+
+        // Configure routes and resources
         configureRoutes();
     }
 
@@ -64,24 +71,37 @@ public class App {
      * Registers handlers for each page
      */
     private void configureRoutes() {
-        // Initialize page controllers
-        PageIndex pageIndex = new PageIndex(templateEngine);
-        PageST2A pageST2A = new PageST2A(templateEngine);
-        PageST2B pageST2B = new PageST2B(templateEngine);
-        PageST3A pageST3A = new PageST3A(templateEngine);
-        PageST3B pageST3B = new PageST3B(templateEngine);
-        PageVision pageVision = new PageVision(templateEngine);
-
         // Configure static resources
         ResourceConfig.configure(app);
 
-        // Register routes
-        app.get("/", pageIndex.handleIndex());
-        app.get("/age-health", pageST2A.handleAgeHealth());
-        app.get("/education", pageST2B.handleEducation());
-        app.get("/gap-analysis", pageST3A.handleGapAnalysis());
-        app.get("/similar-lgas", pageST3B.handleSimilarLGAs());
-        app.get("/our-vision", pageVision.handleOurVision());
+        // Main page with data handling
+        app.get("/", ctx -> {
+            Context context = new Context();
+            context.setVariable("title", "Closing the Gap");
+            String html = templateEngine.process("agehealth", context);
+            ctx.html(html);
+        });
+
+        // Page handlers
+        Handler pageHandler = ctx -> {
+            String path = ctx.path();
+            String templateName = path.substring(1); // Remove leading slash
+            if (templateName.isEmpty()) templateName = "agehealth";
+            
+            Context context = new Context();
+            context.setVariable("title", "Closing the Gap");
+            String html = templateEngine.process(templateName, context);
+            ctx.html(html);
+        };
+
+        // Register routes for all pages
+        app.get("/age-health", pageHandler);
+        app.get("/education", pageHandler);
+        app.get("/gap-analysis", pageHandler);
+        app.get("/vision", pageHandler);
+        app.get("/how2use", pageHandler);
+        app.get("/contact", pageHandler);
+        app.get("/persona", pageHandler);
     }
 
     /**

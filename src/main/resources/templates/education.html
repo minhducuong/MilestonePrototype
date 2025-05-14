@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Closing the Gap</title>
-  <link rel="stylesheet" href="../css/education.css">
+  <link rel="stylesheet" href="../css/agehealthedu.css">
   <link rel="stylesheet" href="../css/common.css">
   <link rel="stylesheet" href="../img/">
 </head>
@@ -26,7 +26,101 @@
         </ul>
     </nav>
   </header>
+  <div class="container">
+    <div class="header">
+      <i class="fas fa-filter"></i>
+      <span>SEARCH FILTER</span>
+    </div>
+    <div class="content">
+      <div class="left-panel">
 
+        <div class="section">
+          <div class="section-title">By Sex</div>
+          <label><input type="checkbox" /> Female</label>
+          <label><input type="checkbox" /> Male</label>
+        </div>
+
+        <div class="section">
+          <div class="section-title">By Status</div>
+          <label><input type="checkbox" /> Indigenous</label>
+          <label><input type="checkbox" /> Non-Indigenous</label>
+          <label><input type="checkbox" /> Not stated</label>
+        </div>
+
+        <div class="section">
+          <div class="section-title">By Area</div>
+          <label><input type="checkbox" /> New South Wales</label>
+          <label><input type="checkbox" /> Victoria</label>
+          <label><input type="checkbox" /> Queensland</label>
+          <label><input type="checkbox" /> South Australia</label>
+          <label><input type="checkbox" /> Western Australia</label>
+          <label><input type="checkbox" /> Tasmania</label>
+          <label><input type="checkbox" /> Northern Territory</label>
+          <label><input type="checkbox" /> ACT (Australian Capital Territory)</label>
+          <label><input type="checkbox" /> Other</label>
+        </div>
+
+        <div class="buttons">
+          <button class="sort-btn">SORT</button>
+          <button class="clear-btn">CLEAR ALL SELECTION</button>
+        </div>
+      </div>
+
+      <div class="right-panel">
+        <select class="right-select sort-btn" data-sort="diseases" aria-label="Sort by Highest year of School">
+          <option value="asc">Sort by Highest year of School </option>
+          <option value="desc">Sort by Lowest year of School </option>
+        </select>
+        <div class="white-box"></div>
+        <select class="right-select sort-btn" data-sort="age" aria-label="Sort by Non-School Education">
+          <option value="asc">Sort by Non-School Education</option>
+          <option value="desc">Sort by School Education</option>
+        </select>
+        <div class="white-box"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Add click event listeners to all sort buttons
+    document.querySelectorAll('.sort-btn').forEach(button => {
+      button.addEventListener('change', function() {
+        const sortType = this.dataset.sort;
+        const sortDirection = this.value;
+        
+        // Remove active class from all buttons
+        document.querySelectorAll('.sort-btn').forEach(btn => {
+          btn.classList.remove('active');
+        });
+        
+        // Add active class to clicked button
+        this.classList.add('active');
+        
+        // Here you would typically call your sorting function
+        console.log(`Sorting ${sortType} in ${sortDirection} order`);
+      });
+    });
+
+    // Add click event listener to clear button
+    document.querySelector('.clear-btn').addEventListener('click', function() {
+      // Uncheck all checkboxes
+      document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.checked = false;
+      });
+
+      // Reset all sort selects to first option
+      document.querySelectorAll('.sort-btn').forEach(select => {
+        select.selectedIndex = 0;
+        select.classList.remove('active');
+      });
+
+      // Optional: Add visual feedback
+      this.classList.add('clicked');
+      setTimeout(() => {
+        this.classList.remove('clicked');
+      }, 200);
+    });
+  </script>
   <footer>
     <div>
       <h4>About</h4>
